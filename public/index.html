@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Online - Онлайн игра</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Экран загрузки -->
+    <div id="loadingScreen" class="screen active">
+        <div class="loading-content">
+            <h1 class="game-title">SPLIT ONLINE</h1>
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Подключение к серверу...</p>
+        </div>
+    </div>
+
+    <!-- Экран выбора персонажа -->
+    <div id="characterScreen" class="screen">
+        <div class="character-selection">
+            <h2 class="screen-title">ВЫБЕРИ СВОЕГО ПЕРСОНАЖА</h2>
+            
+            <div class="characters-grid">
+                <!-- Саня -->
+                <div class="character-card" data-character="sanya">
+                    <div class="character-preview">
+                        <canvas class="character-canvas" width="120" height="150" data-character="sanya"></canvas>
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">САНЯ</h3>
+                        <p class="character-description">Панк с ирокезом</p>
+                        <div class="character-ability">
+                            <span class="ability-name">⚡ РЫВОК</span>
+                            <span class="ability-cooldown">8 сек</span>
+                        </div>
+                        <div class="character-stats">
+                            <div class="stat">
+                                <span>Скорость:</span>
+                                <div class="stat-bar">
+                                    <div class="stat-fill" style="width: 85%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Леха -->
+                <div class="character-card" data-character="leha">
+                    <div class="character-preview">
+                        <canvas class="character-canvas" width="120" height="150" data-character="leha"></canvas>
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">ЛЕХА</h3>
+                        <p class="character-description">Бизнесмен в костюме</p>
+                        <div class="character-ability">
+                            <span class="ability-name">🛡️ ЩИТ</span>
+                            <span class="ability-cooldown">12 сек</span>
+                        </div>
+                        <div class="character-stats">
+                            <div class="stat">
+                                <span>Скорость:</span>
+                                <div class="stat-bar">
+                                    <div class="stat-fill" style="width: 75%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Степа -->
+                <div class="character-card" data-character="stepa">
+                    <div class="character-preview">
+                        <canvas class="character-canvas" width="120" height="150" data-character="stepa"></canvas>
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">СТЕПА</h3>
+                        <p class="character-description">Парень с цепочкой</p>
+                        <div class="character-ability">
+                            <span class="ability-name">🌀 ТЕЛЕПОРТ</span>
+                            <span class="ability-cooldown">15 сек</span>
+                        </div>
+                        <div class="character-stats">
+                            <div class="stat">
+                                <span>Скорость:</span>
+                                <div class="stat-bar">
+                                    <div class="stat-fill" style="width: 80%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Макс -->
+                <div class="character-card" data-character="maks">
+                    <div class="character-preview">
+                        <canvas class="character-canvas" width="120" height="150" data-character="maks"></canvas>
+                    </div>
+                    <div class="character-info">
+                        <h3 class="character-name">МАКС</h3>
+                        <p class="character-description">Здоровый парень</p>
+                        <div class="character-ability">
+                            <span class="ability-name">💥 УДАР</span>
+                            <span class="ability-cooldown">10 сек</span>
+                        </div>
+                        <div class="character-stats">
+                            <div class="stat">
+                                <span>Скорость:</span>
+                                <div class="stat-bar">
+                                    <div class="stat-fill" style="width: 70%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="selection-controls">
+                <input type="text" id="playerName" placeholder="Введи своё имя..." maxlength="15">
+                <button id="joinGameBtn" class="join-btn" disabled>НАЙТИ ИГРУ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Экран ожидания -->
+    <div id="waitingScreen" class="screen">
+        <div class="waiting-content">
+            <h2 class="screen-title">ПОИСК ПРОТИВНИКА</h2>
+            <div class="waiting-animation">
+                <div class="waiting-dots">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+            <p class="waiting-text">Ищем достойного соперника...</p>
+            <div class="current-character">
+                <p>Выбранный персонаж:</p>
+                <div class="selected-character-info">
+                    <canvas id="selectedCharCanvas" width="80" height="100"></canvas>
+                    <span id="selectedCharName"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Игровой экран -->
+    <div id="gameScreen" class="screen">
+        <!-- Игровая зона -->
+        <div class="game-container">
+            <canvas id="gameCanvas" width="1200" height="800"></canvas>
+            
+            <!-- Игровой интерфейс -->
+            <div class="game-ui">
+                <!-- Информация об игроках -->
+                <div class="players-info">
+                    <div class="player-info hunter-info">
+                        <div class="player-avatar">
+                            <canvas id="hunterAvatar" width="50" height="60"></canvas>
+                        </div>
+                        <div class="player-details">
+                            <span class="player-role">ОХОТНИК</span>
+                            <span class="player-name" id="hunterName"></span>
+                            <div class="ability-cooldown" id="hunterCooldown">
+                                <div class="cooldown-bar">
+                                    <div class="cooldown-fill"></div>
+                                </div>
+                                <span class="cooldown-text">Готово</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="player-info prey-info">
+                        <div class="player-avatar">
+                            <canvas id="preyAvatar" width="50" height="60"></canvas>
+                        </div>
+                        <div class="player-details">
+                            <span class="player-role">ДОБЫЧА</span>
+                            <span class="player-name" id="preyName"></span>
+                            <div class="ability-cooldown" id="preyCooldown">
+                                <div class="cooldown-bar">
+                                    <div class="cooldown-fill"></div>
+                                </div>
+                                <span class="cooldown-text">Готово</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Таймер и счёт -->
+                <div class="game-status">
+                    <div class="round-info">
+                        <span class="round-text">РАУНД <span id="currentRound">1</span></span>
+                        <div class="timer" id="gameTimer">2:00</div>
+                    </div>
+                    <div class="score-display">
+                        <div class="score-item hunter-score">
+                            <span class="score-label">ОХОТНИК</span>
+                            <span class="score-value" id="hunterScore">0</span>
+                        </div>
+                        <div class="score-separator">:</div>
+                        <div class="score-item prey-score">
+                            <span class="score-label">ДОБЫЧА</span>
+                            <span class="score-value" id="preyScore">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Миникарта -->
+                <div class="minimap-container">
+                    <canvas id="minimap" width="200" height="150"></canvas>
+                    <span class="minimap-label">КАРТА</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Сообщения игры -->
+        <div id="gameMessages" class="game-messages"></div>
+
+        <!-- Управление -->
+        <div class="controls-info">
+            <div class="control-group">
+                <span class="control-label">ДВИЖЕНИЕ:</span>
+                <div class="keys">
+                    <span class="key">W</span>
+                    <span class="key">A</span>
+                    <span class="key">S</span>
+                    <span class="key">D</span>
+                </div>
+            </div>
+            <div class="control-group">
+                <span class="control-label">СПОСОБНОСТЬ:</span>
+                <div class="keys">
+                    <span class="key">SPACE</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Экран результатов -->
+    <div id="resultScreen" class="screen">
+        <div class="result-content">
+            <h2 class="result-title" id="resultTitle">ИГРА ОКОНЧЕНА</h2>
+            <div class="winner-display" id="winnerDisplay">
+                <canvas id="winnerAvatar" width="120" height="150"></canvas>
+                <span id="winnerName"></span>
+            </div>
+            <div class="final-score">
+                <div class="final-score-item">
+                    <span id="finalHunterScore">0</span>
+                    <span>ОХОТНИК</span>
+                </div>
+                <div class="final-score-separator">:</div>
+                <div class="final-score-item">
+                    <span id="finalPreyScore">0</span>
+                    <span>ДОБЫЧА</span>
+                </div>
+            </div>
+            <div class="result-actions">
+                <button id="playAgainBtn" class="action-btn primary">ИГРАТЬ СНОВА</button>
+                <button id="changeCharacterBtn" class="action-btn secondary">СМЕНИТЬ ПЕРСОНАЖА</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Эффекты частиц -->
+    <div id="particleContainer"></div>
+
+    <!-- Подключение библиотек -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="game.js"></script>
+</body>
+</html> 
