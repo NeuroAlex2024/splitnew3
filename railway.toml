@@ -6,7 +6,6 @@ buildCommand = "echo 'Сборка Split Online Game...'"
 startCommand = "npm start"
 healthcheckPath = "/"
 healthcheckTimeout = 100
-restartPolicyType = "on-failure"
 
 # Настройки для WebSocket приложения
 [variables]
