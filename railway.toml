@@ -1,0 +1,13 @@
+[build]
+builder = "nixpacks"
+buildCommand = "echo 'Сборка Split Online Game...'"
+
+[deploy]
+startCommand = "npm start"
+healthcheckPath = "/"
+healthcheckTimeout = 100
+restartPolicyType = "on-failure"
+
+# Настройки для WebSocket приложения
+[variables]
+NODE_ENV = "production" 

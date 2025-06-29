@@ -104,4 +104,49 @@ logs
 *.log
 
 # Railway
-.railway/ 
+.railway/
+
+# Кеш пакетных менеджеров
+.npm
+.yarn-integrity
+
+# Файлы окружения
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Временные файлы
+.tmp/
+temp/
+
+# Операционная система
+.DS_Store
+Thumbs.db
+
+# IDE файлы
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Артефакты сборки
+dist/
+build/
+
+# Coverage директории используемые инструментами
+*.lcov
+
+# Кеш ESLint
+.eslintcache
+
+# Кеш TypeScript
+*.tsbuildinfo
+
+# Docker
+.dockerignore 
